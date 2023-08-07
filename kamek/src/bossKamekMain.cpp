@@ -180,7 +180,7 @@ void daBossKameck_c::playerCollision(ActivePhysics *apThis, ActivePhysics *apOth
 		}
 	}
 	else {
-		bouncePlayer(apOther->owner, 4.0f);
+		bouncePlayer(apOther->owner, 3.0f);	// base value is 3.0
 	}
 }
 void daBossKameck_c::yoshiCollision(ActivePhysics *apThis, ActivePhysics *apOther) { 
@@ -193,22 +193,27 @@ bool daBossKameck_c::collisionCat1_Fireball_E_Explosion(ActivePhysics *apThis, A
 	return true;
 }
 bool daBossKameck_c::collisionCat7_GroundPound(ActivePhysics *apThis, ActivePhysics *apOther) {
-	bouncePlayer(apOther->owner, 2.0f);
-	this->playEnemyDownSound1();
-	this->damage++;
-	if(this->damage < 6) {
-		if(this->damage == 3) {
-			this->phase++;
+	if(!isShieldVisible && !isInvulnerable) {	// edited by wakanameko-chan. Why did RedStoneMatt forget to make ground pound collision??? 
+		bouncePlayer(apOther->owner, 2.0f);
+		this->playEnemyDownSound1();
+		this->damage++;
+		if(this->damage < 6) {
+			if(this->damage == 3) {
+				this->phase++;
+			}
+			this->isInvulnerable = true;
+			nw4r::snd::SoundHandle damageHandle;
+			PlaySoundWithFunctionB4(SoundRelatedClass, &damageHandle, ((this->damage < 4) ? SE_VOC_KMC_DAMAGE_L1 : SE_VOC_KMC_DAMAGE_L2), 1);
+			doStateChange(&StateID_Damage);
 		}
-		this->isInvulnerable = true;
-		nw4r::snd::SoundHandle damageHandle;
-		PlaySoundWithFunctionB4(SoundRelatedClass, &damageHandle, ((this->damage < 4) ? SE_VOC_KMC_DAMAGE_L1 : SE_VOC_KMC_DAMAGE_L2), 1);
-		doStateChange(&StateID_Damage);
+		if(this->damage == 6) {
+			nw4r::snd::SoundHandle damageHandle;
+			PlaySoundWithFunctionB4(SoundRelatedClass, &damageHandle, SE_VOC_KMC_DAMAGE_L3, 1);
+			doStateChange(&StateID_Outro);
+		}
 	}
-	if(this->damage == 6) {
-		nw4r::snd::SoundHandle damageHandle;
-		PlaySoundWithFunctionB4(SoundRelatedClass, &damageHandle, SE_VOC_KMC_DAMAGE_L3, 1);
-		doStateChange(&StateID_Outro);
+	else {
+		bouncePlayer(apOther->owner, 3.0f);	// base value is 4.0
 	}
 	return true;
 }
