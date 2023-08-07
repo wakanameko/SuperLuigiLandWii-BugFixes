@@ -1,5 +1,5 @@
 # Super Luigi Land Wii - Bug Fixes  
-## This repo is fork of [SuperLuigiLandWii](https://github.com/RedStoneMatt/SuperLuigiLandWii/tree/master) !!!
+## This repo is fork of the [SuperLuigiLandWii](https://github.com/RedStoneMatt/SuperLuigiLandWii/tree/master) !!!
 ## Source Code Public Release
 
 This is the source code of the Super Luigi Land Wii mod, which you can download by clicking right [here](https://www.youtube.com/watch?v=bBvLkyd-TBI).
